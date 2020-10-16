@@ -1,7 +1,6 @@
-﻿using Boards;
-using Ninject;
+﻿using Ninject;
+using System;
 using System.Reflection;
-using System.Threading;
 
 namespace MagicSquare
 {
@@ -9,22 +8,18 @@ namespace MagicSquare
     {
         static void Main(string[] args)
         {
+            StandardKernel kernel = GetKernel();            
+            MagicSquare magicSquare = kernel.Get<MagicSquare>();
+
+            magicSquare.Play();
+        }
+
+        private static StandardKernel GetKernel()
+        {
             StandardKernel kernel = new StandardKernel();
-            kernel.Load(Assembly.GetExecutingAssembly());
-            IO.IO io = kernel.Get<IO.IO>();
-            BoardSizeReader boardSizeReader = kernel.Get<BoardSizeReader>();
-            BoardFactory boardFactory = kernel.Get<BoardFactory>();
+            kernel.Load("*.dll");
 
-            io.WriteLine("Welcome to the MagicSquare!");
-            Thread.Sleep(1000);
-
-            while (true)
-            {
-                int size = boardSizeReader.Read();
-                Board board = boardFactory.Build(size);
-                io.WriteLine($"{size}");
-                Thread.Sleep(1000);
-            }
+            return kernel;
         }
     }
 }

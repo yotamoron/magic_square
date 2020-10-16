@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Boards
 {
-    class BoardPlayer
+    public class BoardPlayer
     {
         public bool TryMove(Board board, Movement movement, out string error)
         {
@@ -15,11 +16,12 @@ namespace Boards
             }
             int sourceIndex = board.BlankIndex + GetMovementDelta(board, movement);
             Tile tileToMove = board.Tiles[sourceIndex];
+            Tile blankTile = board.Tiles[board.BlankIndex];
             bool tileWasOnRightIndex = tileToMove.Value == sourceIndex;
             bool tileIsOnRightIndex = tileToMove.Value == board.BlankIndex;
 
             board.Tiles[board.BlankIndex] = tileToMove;
-            board.Tiles[sourceIndex] = null;
+            board.Tiles[sourceIndex] = blankTile;
 
             board.BlankIndex = sourceIndex;
 
@@ -61,27 +63,32 @@ namespace Boards
         public List<Movement> GetLegalMoves(Board board)
         {
             List<Movement> legalMovements = new List<Movement>();
-            Coordinates destinationCoordinates = GetBlankIndexCoordinates(board);
+            Coordinates blankCoordinates = GetBlankIndexCoordinates(board);
             int edge = board.PuzzleN - 1;
 
-            if (destinationCoordinates.Column != edge)
+            if (blankCoordinates.Column != edge)
             {
                 legalMovements.Add(Movement.LEFT);
             }
-            if (destinationCoordinates.Column != 0)
+            if (blankCoordinates.Column != 0)
             {
                 legalMovements.Add(Movement.RIGHT);
             }
-            if (destinationCoordinates.Row != edge)
+            if (blankCoordinates.Row != edge)
             {
                 legalMovements.Add(Movement.UP);
             }
-            if (destinationCoordinates.Row != 0)
+            if (blankCoordinates.Row != 0)
             {
                 legalMovements.Add(Movement.DOWN);
             }
 
             return legalMovements;
+        }
+
+        public bool IsSolved(Board board)
+        {
+            return board.NumberOfMisplacedTiles == 0;
         }
 
         public bool TryGetValueAt(Board board, int row, int column, out string value, out string error)
@@ -90,12 +97,12 @@ namespace Boards
             error = string.Empty;
             int edge = board.PuzzleN - 1;
 
-            if (row < 1 || row > edge)
+            if (row < 0 || row > edge)
             {
                 error = $"Illegal row number: {row}";
                 return false;
             }
-            if (column < 1 || column > edge)
+            if (column < 0 || column > edge)
             {
                 error = $"Illegal column number: {column}";
                 return false;

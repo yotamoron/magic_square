@@ -8,6 +8,8 @@ namespace MagicSquare
         public override void Load()
         {
             Bind<IO.IO>().To<ConsoleIO>().InSingletonScope();
+            Bind<BoardRenderer>().ToSelf().InSingletonScope();
+            Bind<MagicSquare>().ToSelf().InSingletonScope();
         }
     }
 }
