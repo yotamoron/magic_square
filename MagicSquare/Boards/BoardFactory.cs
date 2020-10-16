@@ -8,6 +8,15 @@ namespace Boards
     {
         private readonly Random rand = new Random();
 
+        private readonly LegalBoardValidator legalBoardValidator ;
+        private readonly BlankTileIndexFinder blankTileIndexFinder;
+
+        public BoardFactory(LegalBoardValidator legalBoardValidator, BlankTileIndexFinder blankTileIndexFinder)
+        {
+            this.legalBoardValidator = legalBoardValidator;
+            this.blankTileIndexFinder = blankTileIndexFinder;
+        }
+
         public Board Build(int size)
         {
             if (size < 1)
@@ -15,7 +24,7 @@ namespace Boards
                 throw new ArgumentException($"Board size must be bigger then 0, got {size}");
             }
             List<Tile> tiles = GetLegalBoardTiles(size);
-            int blankIndex = GetBlankIndex(tiles);
+            int blankIndex = blankTileIndexFinder.Find(tiles);
             int numberOfMisplacedTiles = CountNumberOfMisplacedTiles(tiles);
             Board board = new Board
             {
@@ -56,7 +65,7 @@ namespace Boards
                 tiles.Add(new Tile(null));
                 Shuffle(tiles);
 
-            } while (!IsLegalBoard(tiles, size));
+            } while (!legalBoardValidator.Validate(tiles, size));
 
             return tiles;
         }
@@ -74,83 +83,6 @@ namespace Boards
                 tiles[k] = tiles[j];
                 tiles[j] = value;
             }
-        }
-
-        private bool IsLegalBoard(List<Tile> tiles, int size)
-        {
-            int numberOfInversions = CountInversions(tiles);
-            int blankIndex = GetBlankIndex(tiles);
-            bool isNumberOfInversionsEven = numberOfInversions % 2 == 0;
-            bool isSizeEven = size % 2 == 0;
-
-            if (isSizeEven)
-            {
-                int blankIndexRow = blankIndex / size;
-                bool isBlankOnAnEvenRow = blankIndexRow % 2 == 0;
-
-                return isBlankOnAnEvenRow ^ isNumberOfInversionsEven;
-            }
-            else
-            {
-                return isNumberOfInversionsEven;
-            }
-        }
-
-        private int GetBlankIndex(List<Tile> tiles)
-        {
-            int blankIndex = 0;
-
-            for (int index = 0; index < tiles.Count; index++)
-            {
-                if (!tiles[index].Value.HasValue)
-                {
-                    blankIndex = index;
-                    break;
-                }
-            }
-            return blankIndex;
-        }
-
-        private int CountInversions(List<Tile> tiles)
-        {
-            int numberOfInversions = 0;
-
-            for (int index = 0; index < tiles.Count; index++)
-            {
-                Tile currentTile = tiles[index];
-
-                if (currentTile.Value.HasValue)
-                {
-                    int additionalInversions = CountInversions(tiles, index);
-
-                    numberOfInversions += additionalInversions;
-                }
-            }
-
-            return numberOfInversions;
-        }
-
-        private int CountInversions(List<Tile> tiles, int index)
-        {
-            int numberOfInversions = 0;
-            Tile currentTile = tiles[index];
-
-            if (index < tiles.Count)
-            {
-                int restOfListInitialIndex = index + 1;
-                int restOfListSize = tiles.Count - restOfListInitialIndex;
-                tiles.GetRange(restOfListInitialIndex, restOfListSize).ForEach(tile =>
-                {
-                    bool inverted = tile.Value.HasValue && currentTile.Value > tile.Value;
-
-                    if (inverted)
-                    {
-                        numberOfInversions++;
-                    }
-                });
-            }
-
-            return numberOfInversions;
-        }
+        }       
     }
 }
