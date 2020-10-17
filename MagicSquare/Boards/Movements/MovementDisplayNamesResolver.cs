@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Boards
+namespace Boards.Movements
 {
     public class MovementDisplayNamesResolver
     {

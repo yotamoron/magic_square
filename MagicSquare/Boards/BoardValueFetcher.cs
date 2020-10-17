@@ -1,4 +1,6 @@
-﻿namespace Boards
+﻿using Boards.Tiles;
+
+namespace Boards
 {
     public class BoardValueFetcher
     {

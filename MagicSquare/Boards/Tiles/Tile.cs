@@ -1,4 +1,4 @@
-﻿namespace Boards
+﻿namespace Boards.Tiles
 {
     public class Tile
     {

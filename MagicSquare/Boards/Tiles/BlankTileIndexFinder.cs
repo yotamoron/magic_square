@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Boards
+namespace Boards.Tiles
 {
     public class BlankTileIndexFinder
     {

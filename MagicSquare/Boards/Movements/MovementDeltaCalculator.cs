@@ -1,4 +1,4 @@
-﻿namespace Boards
+﻿namespace Boards.Movements
 {
     public class MovementDeltaCalculator
     {

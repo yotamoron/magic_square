@@ -1,4 +1,6 @@
-﻿using Ninject.Modules;
+﻿using Boards.Movements;
+using Boards.Tiles;
+using Ninject.Modules;
 using System.Collections.Generic;
 
 namespace Boards

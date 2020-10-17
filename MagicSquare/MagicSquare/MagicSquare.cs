@@ -1,4 +1,6 @@
 ﻿using Boards;
+using Boards.Movements;
+using Boards.Tiles;
 using System.Collections.Generic;
 
 namespace MagicSquare

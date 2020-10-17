@@ -1,4 +1,6 @@
-﻿namespace Boards
+﻿using Boards.Movements;
+
+namespace Boards.Tiles
 {
     public class TileMover
     {

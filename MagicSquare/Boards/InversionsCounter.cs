@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Boards.Tiles;
+using System.Collections.Generic;
 
 namespace Boards
 {
