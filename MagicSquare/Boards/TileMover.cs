@@ -3,10 +3,12 @@
     public class TileMover
     {
         private readonly LegalMovesCalculator legalMovesCalculator;
+        private readonly MovementDeltaCalculator movementDeltaCalculator;
 
-        public TileMover(LegalMovesCalculator legalMovesCalculator)
+        public TileMover(LegalMovesCalculator legalMovesCalculator, MovementDeltaCalculator movementDeltaCalculator)
         {
             this.legalMovesCalculator = legalMovesCalculator;
+            this.movementDeltaCalculator = movementDeltaCalculator;
         }
 
         public bool TryMove(Board board, Movement movement, out string error)
@@ -52,33 +54,10 @@
 
         private void Move(Board board, Movement movement)
         {
-            int sourceIndex = board.BlankIndex + GetMovementDelta(board, movement);
+            int sourceIndex = board.BlankIndex + movementDeltaCalculator.GetMovementDelta(board, movement);
             
             UpdateNumberOfMisplacedTiles(board, sourceIndex);
             Move(board, sourceIndex);
-        }
-
-        private int GetMovementDelta(Board board, Movement movement)
-        {
-            int delta = 0;
-
-            switch (movement)
-            {
-                case Movement.DOWN:
-                    delta = -board.Size;
-                    break;
-                case Movement.UP:
-                    delta = board.Size;
-                    break;
-                case Movement.LEFT:
-                    delta = 1;
-                    break;
-                case Movement.RIGHT:
-                    delta = -1;
-                    break;
-            }
-
-            return delta;
         }
     }
 }

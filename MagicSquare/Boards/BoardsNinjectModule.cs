@@ -26,6 +26,7 @@ namespace Boards
             }).InSingletonScope();
             Bind<LegalMovesCalculator>().ToSelf().InSingletonScope();
             Bind<TileMover>().ToSelf().InSingletonScope();
+            Bind<MovementDeltaCalculator>().ToSelf().InSingletonScope();
         }
     }
 }
