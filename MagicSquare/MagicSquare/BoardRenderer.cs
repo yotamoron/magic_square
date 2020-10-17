@@ -20,6 +20,7 @@ namespace MagicSquare
             StringBuilder sb = new StringBuilder();
             IEnumerable<int> indices = Enumerable.Range(0, board.Size);
 
+            sb.AppendLine($"Number Of Misplaced Tiles: {board.NumberOfMisplacedTiles}");
             indices.ToList().ForEach(row =>
             {
                 IEnumerable<string> rowValues = indices.Select(col =>

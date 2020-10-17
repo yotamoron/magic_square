@@ -10,24 +10,23 @@
         }
 
         public bool TryMove(Board board, Movement movement, out string error)
-        {
-            error = string.Empty;
-
-            if (!legalMovesCalculator.GetLegalMoves(board).Contains(movement))
+        {            
+            bool isLegalMove = legalMovesCalculator.GetLegalMoves(board).Contains(movement);
+            
+            if (isLegalMove)
             {
-                error = $"{movement} is an illegal movement!";
-                return false;
+                Move(board, movement);
             }
-            int sourceIndex = board.BlankIndex + GetMovementDelta(board, movement);
+            error = isLegalMove ? string.Empty : $"{movement} is an illegal movement!";
+
+            return isLegalMove;
+        }
+
+        private void UpdateNumberOfMisplacedTiles(Board board, int sourceIndex)
+        {
             Tile tileToMove = board.Tiles[sourceIndex];
-            Tile blankTile = board.Tiles[board.BlankIndex];
             bool tileWasOnRightIndex = tileToMove.Value == sourceIndex;
             bool tileIsOnRightIndex = tileToMove.Value == board.BlankIndex;
-
-            board.Tiles[board.BlankIndex] = tileToMove;
-            board.Tiles[sourceIndex] = blankTile;
-
-            board.BlankIndex = sourceIndex;
 
             if (tileWasOnRightIndex && !tileIsOnRightIndex)
             {
@@ -37,9 +36,26 @@
             {
                 board.NumberOfMisplacedTiles--;
             }
-
             board.IsSolved = board.NumberOfMisplacedTiles == 0;
-            return true;
+        }
+
+        private void Move(Board board, int sourceIndex)
+        {
+            Tile tileToMove = board.Tiles[sourceIndex];
+            Tile blankTile = board.Tiles[board.BlankIndex];
+
+            board.Tiles[board.BlankIndex] = tileToMove;
+            board.Tiles[sourceIndex] = blankTile;
+
+            board.BlankIndex = sourceIndex;
+        }
+
+        private void Move(Board board, Movement movement)
+        {
+            int sourceIndex = board.BlankIndex + GetMovementDelta(board, movement);
+            
+            UpdateNumberOfMisplacedTiles(board, sourceIndex);
+            Move(board, sourceIndex);
         }
 
         private int GetMovementDelta(Board board, Movement movement)
