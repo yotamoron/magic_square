@@ -7,7 +7,7 @@ namespace Boards
     {
         public override void Load()
         {
-            Bind<BoardPlayer>().ToSelf().InSingletonScope();
+            Bind<BoardValueFetcher>().ToSelf().InSingletonScope();
             Bind<BoardFactory>().ToSelf().InSingletonScope();
             Bind<InversionsCounter>().ToSelf().InSingletonScope();
             Bind<LegalBoardValidator>().ToSelf().InSingletonScope();
@@ -24,6 +24,8 @@ namespace Boards
 
                 return new MovementDisplayNamesResolver(movementDisplayNames);
             }).InSingletonScope();
+            Bind<LegalMovesCalculator>().ToSelf().InSingletonScope();
+            Bind<TileMover>().ToSelf().InSingletonScope();
         }
     }
 }

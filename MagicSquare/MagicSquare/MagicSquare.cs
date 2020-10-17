@@ -10,18 +10,23 @@ namespace MagicSquare
         private readonly BoardSizeReader boardSizeReader;
         private readonly BoardFactory boardFactory;
         private readonly BoardRenderer boardRenderer;
-        private readonly BoardPlayer boardPlayer;
+        private readonly BoardValueFetcher boardValueFetcher;
         private readonly MovementDisplayNamesResolver movementDisplayNamesResolver;
+        private readonly TileMover tileMover;
+        private readonly LegalMovesCalculator legalMovesCalculator; 
 
         public MagicSquare(IO.IO io, BoardSizeReader boardSizeReader, BoardFactory boardFactory,
-            BoardRenderer boardRenderer, BoardPlayer boardPlayer,MovementDisplayNamesResolver movementDisplayNamesResolver)
+            BoardRenderer boardRenderer, BoardValueFetcher boardValueFetcher,MovementDisplayNamesResolver movementDisplayNamesResolver,
+            TileMover tileMover, LegalMovesCalculator legalMovesCalculator)
         {
             this.io = io;
             this.boardSizeReader = boardSizeReader;
             this.boardFactory = boardFactory;
             this.boardRenderer = boardRenderer;
-            this.boardPlayer = boardPlayer;
+            this.boardValueFetcher = boardValueFetcher;
             this.movementDisplayNamesResolver = movementDisplayNamesResolver;
+            this.tileMover = tileMover;
+            this.legalMovesCalculator = legalMovesCalculator;
         }
 
         public void Play()
@@ -37,7 +42,7 @@ namespace MagicSquare
                 while (playCurrentGame)
                 {
                     string renderedBoard = boardRenderer.Render(board);
-                    List<Movement> legalMoves = boardPlayer.GetLegalMoves(board);
+                    List<Movement> legalMoves = legalMovesCalculator.GetLegalMoves(board);
                     string movements = movementDisplayNamesResolver.Render(legalMoves);
 
                     io.Clear();
@@ -47,11 +52,11 @@ namespace MagicSquare
 
                     if (movementDisplayNamesResolver.TryResolve(nextAction, out Movement nextMovement))
                     {
-                        if (!boardPlayer.TryMove(board, nextMovement, out string error))
+                        if (!tileMover.TryMove(board, nextMovement, out string error))
                         {
                             io.WriteLine($"Failed moving a tile: {error}", 3000);
                         }
-                        else if(boardPlayer.IsSolved(board))
+                        else if(board.IsSolved)
                         {
                             io.Read("Congrats! you solved the game! Press Enter to continue");
                             playCurrentGame = false;

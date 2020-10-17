@@ -30,8 +30,9 @@ namespace Boards
             {
                 Tiles = tiles,
                 BlankIndex = blankIndex,
-                PuzzleN = size,
-                NumberOfMisplacedTiles = numberOfMisplacedTiles
+                Size = size,
+                NumberOfMisplacedTiles = numberOfMisplacedTiles,
+                IsSolved = numberOfMisplacedTiles == 0
             };
 
             return board;
