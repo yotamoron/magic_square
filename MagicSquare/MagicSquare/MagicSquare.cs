@@ -33,6 +33,7 @@ namespace MagicSquare
 
         public void Play()
         {
+            io.Clear();
             io.WriteLine("Welcome to the MagicSquare!", 1000);
 
             while (true)
