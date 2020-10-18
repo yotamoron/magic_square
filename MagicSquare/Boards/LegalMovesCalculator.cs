@@ -5,7 +5,7 @@ namespace Boards
 {
     public class LegalMovesCalculator
     {
-        public List<Movement> GetLegalMoves(Board board)
+        public virtual List<Movement> GetLegalMoves(Board board)
         {
             List<Movement> legalMovements = new List<Movement>();
             Coordinates blankCoordinates = GetBlankIndexCoordinates(board);

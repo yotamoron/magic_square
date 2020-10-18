@@ -1,5 +1,5 @@
 ﻿using Boards.Movements;
-using Moq;
+using Boards.Test.Tiles;
 using Xunit;
 
 namespace Boards.Test.Movements
@@ -34,12 +34,14 @@ namespace Boards.Test.Movements
         private void TestMovement(Movement movement, int expected)
         {
             MovementDeltaCalculator movementDeltaCalculator = new MovementDeltaCalculator();
-            Mock<Board> board = new Mock<Board>();
+            AccessibeBoard board = new AccessibeBoard
+            {
+                AccessibleSize = SIZE
+            };
 
-            board.SetupGet(b => b.Size).Returns(SIZE);
-            int delta = movementDeltaCalculator.GetMovementDelta(board.Object, movement);
+            int delta = movementDeltaCalculator.GetMovementDelta(board, movement);
 
             Assert.Equal(expected, delta);
-        }    
+        }
     }
 }

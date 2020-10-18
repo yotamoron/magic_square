@@ -5,10 +5,10 @@ namespace Boards
 {
     public class Board
     {
-        internal List<Tile> Tiles { get; set; }
-        public virtual int Size { get; internal set; }
-        internal int BlankIndex { get; set; }
-        public int TotalMisplacedTiles { get; internal set; }
-        public bool IsSolved { get; internal set; }
+        protected internal List<Tile> Tiles { get; set; }
+        public int Size { get; protected internal set; }
+        protected internal int BlankIndex { get; set; }
+        public int TotalMisplacedTiles { get; protected internal set; }
+        public bool IsSolved { get; protected internal set; }
     }
 }
