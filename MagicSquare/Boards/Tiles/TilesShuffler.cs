@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Boards.Tiles
 {
@@ -9,16 +10,21 @@ namespace Boards.Tiles
 
         public void Shuffle(List<Tile> tiles)
         {
-            int n = tiles.Count * 2;
+            List<Tile> original = new List<Tile>(tiles);
 
-            while (n > 1)
+            while (Enumerable.SequenceEqual(tiles, original))
             {
-                n--;
-                int k = rand.Next(tiles.Count);
-                int j = rand.Next(tiles.Count);
-                Tile value = tiles[k];
-                tiles[k] = tiles[j];
-                tiles[j] = value;
+                int n = tiles.Count * 2;
+
+                while (n > 1)
+                {
+                    n--;
+                    int k = rand.Next(tiles.Count);
+                    int j = rand.Next(tiles.Count);
+                    Tile value = tiles[k];
+                    tiles[k] = tiles[j];
+                    tiles[j] = value;
+                }
             }
         }
     }
