@@ -25,13 +25,13 @@ namespace MagicSquare
             {
                 IEnumerable<string> rowValues = indices.Select(col =>
                 {
-                    if (!boardValueFetcher.TryGetValueAt(board, row, col, out string value, out string error))
+                    if (!boardValueFetcher.TryGetValueAt(board, row, col, out int? value, out string error))
                     {
                         throw new System.Exception($"Something is wrong - can't get value at {row}/{col}: {error}");
                     }
                     else
                     {
-                        return value;
+                        return value.HasValue ? $"{value.Value}" : "";
                     }
                 });
                 sb.AppendJoin("\t", rowValues);
