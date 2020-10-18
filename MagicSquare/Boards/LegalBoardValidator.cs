@@ -16,23 +16,27 @@ namespace Boards
 
         public bool Validate(List<Tile> tiles, int size)
         {
-            int numberOfInversions = inversionsCounter.Count(tiles);
-            int blankIndex = blankTileIndexFinder.Find(tiles);
-            bool isNumberOfInversionsEven = numberOfInversions % 2 == 0;
-            bool isSizeEven = size % 2 == 0;
-
-            if (isSizeEven)
+            bool isValid = blankTileIndexFinder.TryFind(tiles, out int blankIndex);
+            
+            if (isValid)
             {
-                int blankIndexRow = blankIndex / size;
-                bool isBlankOnAnEvenRow = blankIndexRow % 2 == 0;
+                int numberOfInversions = inversionsCounter.Count(tiles);
+                bool isNumberOfInversionsEven = numberOfInversions % 2 == 0;
+                bool isSizeEven = size % 2 == 0;
 
-                return isBlankOnAnEvenRow ^ isNumberOfInversionsEven;
+                if (isSizeEven)
+                {
+                    int blankIndexRow = blankIndex / size;
+                    bool isBlankOnAnEvenRow = blankIndexRow % 2 == 0;
+
+                    isValid = isBlankOnAnEvenRow ^ isNumberOfInversionsEven;
+                }
+                else
+                {
+                    isValid = isNumberOfInversionsEven;
+                }
             }
-            else
-            {
-                return isNumberOfInversionsEven;
-            }
+            return isValid;
         }
-
     }
 }

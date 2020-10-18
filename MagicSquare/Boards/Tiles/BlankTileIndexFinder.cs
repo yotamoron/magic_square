@@ -4,19 +4,28 @@ namespace Boards.Tiles
 {
     public class BlankTileIndexFinder
     {
-        public int Find(List<Tile> tiles)
+        public bool TryFind(List<Tile> tiles, out int tileIndex)
         {
-            int blankIndex = 0;
+            tileIndex = -1;
 
             for (int index = 0; index < tiles.Count; index++)
             {
                 if (!tiles[index].Value.HasValue)
                 {
-                    blankIndex = index;
-                    break;
+                    bool alreadyFound = tileIndex != -1;
+
+                    if (alreadyFound)
+                    {
+                        tileIndex = -1;
+                        break;
+                    }
+                    else
+                    {
+                        tileIndex = index;
+                    }
                 }
             }
-            return blankIndex;
+            return tileIndex != -1;
         }
     }
 }

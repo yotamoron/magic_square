@@ -28,7 +28,7 @@ namespace Boards
                 throw new ArgumentException($"Board size must be bigger then 0, got {size}");
             }
             List<Tile> tiles = GetLegalBoardTiles(size);
-            int blankIndex = blankTileIndexFinder.Find(tiles);
+            int blankIndex = blankTileIndexFinder.TryFind(tiles, out int index) ? index: throw new Exception("Illegal number of tiles!");
             int numberOfMisplacedTiles = misplacedTilesCounter.Count(tiles);
             Board board = new Board
             {
