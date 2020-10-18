@@ -31,49 +31,88 @@ namespace MagicSquare
             this.legalMovesCalculator = legalMovesCalculator;
         }
 
-        public void Play()
+        private void Welcome()
         {
             io.Clear();
             io.WriteLine("Welcome to the MagicSquare!", 1000);
+        }
+
+        private Board GetBoard()
+        {
+            int size = boardSizeReader.Read();
+
+            return boardFactory.Build(size);
+        }
+
+        private void RenderBoard(Board board)
+        {
+            string renderedBoard = boardRenderer.Render(board);
+
+            io.Clear();
+            io.WriteLine(renderedBoard);
+        }
+
+        private string ReadNextAction(Board board)
+        {
+            List<Movement> legalMoves = legalMovesCalculator.GetLegalMoves(board);
+            string movements = movementDisplayNamesResolver.Render(legalMoves);
+
+             return io.Read($"Please select movement: {movements} - Or New Game ({NEW_GAME})");
+        }
+
+        private bool ApplyNextAction(Board board, string nextAction)
+        {
+            bool keepPlaying = true;
+
+            if (movementDisplayNamesResolver.TryResolve(nextAction, out Movement nextMovement))
+            {
+                if (!tileMover.TryMove(board, nextMovement, out string error))
+                {
+                    io.WriteLine($"Failed moving a tile: {error}", 3000);
+                }
+            }
+            else if (nextAction == NEW_GAME)
+            {
+                keepPlaying = false;
+            }
+            else
+            {
+                io.WriteLine($"'{nextAction}' is not a legal input", 3000);
+            }
+
+            return keepPlaying;
+        }
+
+        private void Play(Board board)
+        {
+            bool keepPlaying = true;
+
+            while (keepPlaying)
+            {
+                RenderBoard(board);
+                if (board.IsSolved)
+                {
+                    io.Read("Congrats! you solved the game! Press Enter to continue");
+                    keepPlaying = false;
+                }
+                else
+                {
+                    string nextAction = ReadNextAction(board);
+
+                    keepPlaying = ApplyNextAction(board, nextAction);
+                }                
+            }
+        }
+
+        public void Play()
+        {
+            Welcome();
 
             while (true)
             {
-                int size = boardSizeReader.Read();
-                Board board = boardFactory.Build(size);
-                bool playCurrentGame = true;
+                Board board = GetBoard();
 
-                while (playCurrentGame)
-                {
-                    string renderedBoard = boardRenderer.Render(board);
-                    List<Movement> legalMoves = legalMovesCalculator.GetLegalMoves(board);
-                    string movements = movementDisplayNamesResolver.Render(legalMoves);
-
-                    io.Clear();
-                    io.WriteLine(renderedBoard);
-                                        
-                    string nextAction = io.Read($"Please select movement: {movements} - Or New Game ({NEW_GAME})");
-
-                    if (movementDisplayNamesResolver.TryResolve(nextAction, out Movement nextMovement))
-                    {
-                        if (!tileMover.TryMove(board, nextMovement, out string error))
-                        {
-                            io.WriteLine($"Failed moving a tile: {error}", 3000);
-                        }
-                        else if(board.IsSolved)
-                        {
-                            io.Read("Congrats! you solved the game! Press Enter to continue");
-                            playCurrentGame = false;
-                        } 
-                    }
-                    else if (nextAction == NEW_GAME)
-                    {
-                        playCurrentGame = false;
-                    }
-                    else
-                    {
-                        io.WriteLine($"'{nextAction}' is not a legal input", 3000);
-                    }
-                }
+                Play(board);
             }
         }
     }
