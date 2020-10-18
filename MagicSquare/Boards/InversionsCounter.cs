@@ -5,7 +5,7 @@ namespace Boards
 {
     public class InversionsCounter
     {
-        public int CountInversions(List<Tile> tiles)
+        public int Count(List<Tile> tiles)
         {
             int numberOfInversions = 0;
 
@@ -15,7 +15,7 @@ namespace Boards
 
                 if (currentTile.Value.HasValue)
                 {
-                    int additionalInversions = CountInversions(tiles, index);
+                    int additionalInversions = Count(tiles, index);
 
                     numberOfInversions += additionalInversions;
                 }
@@ -24,27 +24,28 @@ namespace Boards
             return numberOfInversions;
         }
 
-        private int CountInversions(List<Tile> tiles, int index)
+        private int Count(List<Tile> tiles, int index)
         {
-            int numberOfInversions = 0;
+            int inversionsCount = 0;
             Tile currentTile = tiles[index];
 
             if (index < tiles.Count)
             {
                 int restOfListInitialIndex = index + 1;
                 int restOfListSize = tiles.Count - restOfListInitialIndex;
+
                 tiles.GetRange(restOfListInitialIndex, restOfListSize).ForEach(tile =>
                 {
-                    bool inverted = tile.Value.HasValue && currentTile.Value > tile.Value;
+                    bool isInverted = tile.Value.HasValue && currentTile.Value > tile.Value;
 
-                    if (inverted)
+                    if (isInverted)
                     {
-                        numberOfInversions++;
+                        inversionsCount++;
                     }
                 });
             }
 
-            return numberOfInversions;
+            return inversionsCount;
         }
     }
 }

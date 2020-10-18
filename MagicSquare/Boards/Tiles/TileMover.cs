@@ -6,11 +6,14 @@ namespace Boards.Tiles
     {
         private readonly LegalMovesCalculator legalMovesCalculator;
         private readonly MovementDeltaCalculator movementDeltaCalculator;
+        private readonly MisplacedTilesCounter misplacedTilesCounter;
 
-        public TileMover(LegalMovesCalculator legalMovesCalculator, MovementDeltaCalculator movementDeltaCalculator)
+        public TileMover(LegalMovesCalculator legalMovesCalculator, MovementDeltaCalculator movementDeltaCalculator,
+            MisplacedTilesCounter misplacedTilesCounter)
         {
             this.legalMovesCalculator = legalMovesCalculator;
             this.movementDeltaCalculator = movementDeltaCalculator;
+            this.misplacedTilesCounter = misplacedTilesCounter;
         }
 
         public bool TryMove(Board board, Movement movement, out string error)
@@ -26,29 +29,19 @@ namespace Boards.Tiles
             return isLegalMove;
         }
 
-        private void UpdateNumberOfMisplacedTiles(Board board, int sourceIndex)
-        {
-            Tile tileToMove = board.Tiles[sourceIndex];
-            bool tileWasOnRightIndex = tileToMove.Value == sourceIndex;
-            bool tileIsOnRightIndex = tileToMove.Value == board.BlankIndex;
-
-            if (tileWasOnRightIndex && !tileIsOnRightIndex)
-            {
-                board.NumberOfMisplacedTiles++;
-            }
-            else if (!tileWasOnRightIndex && tileIsOnRightIndex)
-            {
-                board.NumberOfMisplacedTiles--;
-            }
-            board.IsSolved = board.NumberOfMisplacedTiles == 0;
+        private void UpdateTotalMisplacedTiles(Board board)
+        {            
+            board.TotalMisplacedTiles = misplacedTilesCounter.Count(board.Tiles);            
+            board.IsSolved = board.TotalMisplacedTiles == 0;
         }
 
         private void Move(Board board, int sourceIndex)
         {
-            Tile tileToMove = board.Tiles[sourceIndex];
-            Tile blankTile = board.Tiles[board.BlankIndex];
+            int blankIndex = board.BlankIndex;
+            Tile tileToMove = board.Tiles[sourceIndex];            
+            Tile blankTile = board.Tiles[blankIndex];
 
-            board.Tiles[board.BlankIndex] = tileToMove;
+            board.Tiles[blankIndex] = tileToMove;
             board.Tiles[sourceIndex] = blankTile;
 
             board.BlankIndex = sourceIndex;
@@ -57,9 +50,9 @@ namespace Boards.Tiles
         private void Move(Board board, Movement movement)
         {
             int sourceIndex = board.BlankIndex + movementDeltaCalculator.GetMovementDelta(board, movement);
-            
-            UpdateNumberOfMisplacedTiles(board, sourceIndex);
+                        
             Move(board, sourceIndex);
+            UpdateTotalMisplacedTiles(board);
         }
     }
 }

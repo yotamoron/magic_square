@@ -1,6 +1,4 @@
 ﻿using Ninject;
-using System;
-using System.Reflection;
 
 namespace MagicSquare
 {
@@ -8,7 +6,7 @@ namespace MagicSquare
     {
         static void Main(string[] args)
         {
-            StandardKernel kernel = GetKernel();            
+            StandardKernel kernel = GetKernel();
             MagicSquare magicSquare = kernel.Get<MagicSquare>();
 
             magicSquare.Play();

@@ -8,7 +8,7 @@ namespace Boards
         internal List<Tile> Tiles { get; set; }
         public int Size { get; internal set; }
         internal int BlankIndex { get; set; }
-        public int NumberOfMisplacedTiles { get; internal set; }
+        public int TotalMisplacedTiles { get; internal set; }
         public bool IsSolved { get; internal set; }
     }
 }

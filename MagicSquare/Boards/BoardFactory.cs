@@ -7,15 +7,18 @@ namespace Boards
 {
     public class BoardFactory
     {
-        private readonly Random rand = new Random();
-
         private readonly LegalBoardValidator legalBoardValidator ;
         private readonly BlankTileIndexFinder blankTileIndexFinder;
+        private readonly MisplacedTilesCounter misplacedTilesCounter;
+        private readonly TilesShuffler tilesShuffler;
 
-        public BoardFactory(LegalBoardValidator legalBoardValidator, BlankTileIndexFinder blankTileIndexFinder)
+        public BoardFactory(LegalBoardValidator legalBoardValidator, BlankTileIndexFinder blankTileIndexFinder,
+            MisplacedTilesCounter misplacedTilesCounter, TilesShuffler tilesShuffler)
         {
             this.legalBoardValidator = legalBoardValidator;
             this.blankTileIndexFinder = blankTileIndexFinder;
+            this.misplacedTilesCounter = misplacedTilesCounter;
+            this.tilesShuffler = tilesShuffler;
         }
 
         public Board Build(int size)
@@ -26,65 +29,31 @@ namespace Boards
             }
             List<Tile> tiles = GetLegalBoardTiles(size);
             int blankIndex = blankTileIndexFinder.Find(tiles);
-            int numberOfMisplacedTiles = CountNumberOfMisplacedTiles(tiles);
+            int numberOfMisplacedTiles = misplacedTilesCounter.Count(tiles);
             Board board = new Board
             {
                 Tiles = tiles,
                 BlankIndex = blankIndex,
                 Size = size,
-                NumberOfMisplacedTiles = numberOfMisplacedTiles,
+                TotalMisplacedTiles = numberOfMisplacedTiles,
                 IsSolved = numberOfMisplacedTiles == 0
             };
 
             return board;
         }
 
-        private int CountNumberOfMisplacedTiles(List<Tile> tiles)
-        {
-            int numberOfMisplacedTiles = 0;
-            for (int index = 0; index < tiles.Count; index++)
-            {
-                Tile tile = tiles[index];
-                bool isMisplacedTile = tile.Value.HasValue && tile.Value != index;
-
-                if (isMisplacedTile)
-                {
-                    numberOfMisplacedTiles++;
-                }
-            }
-
-            return numberOfMisplacedTiles;
-        }
-
         private List<Tile> GetLegalBoardTiles(int size)
         {
             int numberOfTiles = size * size - 1;
-            List<Tile> tiles;
+            List<Tile> tiles = Enumerable.Range(0, numberOfTiles).Select(i => new Tile(i)).ToList(); ;
 
+            tiles.Add(new Tile(null));
             do
             {
-                tiles = Enumerable.Range(0, numberOfTiles).Select(i => new Tile(i)).ToList();
-                tiles.Add(new Tile(null));
-                Shuffle(tiles);
-
+                tilesShuffler.Shuffle(tiles);
             } while (!legalBoardValidator.Validate(tiles, size));
 
             return tiles;
         }
-
-        private void Shuffle(List<Tile> tiles)
-        {
-            int n = tiles.Count * 2;
-
-            while (n > 1)
-            {
-                n--;
-                int k = rand.Next(tiles.Count);
-                int j = rand.Next(tiles.Count);
-                Tile value = tiles[k];
-                tiles[k] = tiles[j];
-                tiles[j] = value;
-            }
-        }       
     }
 }

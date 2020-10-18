@@ -16,7 +16,7 @@ namespace Boards
 
         public bool Validate(List<Tile> tiles, int size)
         {
-            int numberOfInversions = inversionsCounter.CountInversions(tiles);
+            int numberOfInversions = inversionsCounter.Count(tiles);
             int blankIndex = blankTileIndexFinder.Find(tiles);
             bool isNumberOfInversionsEven = numberOfInversions % 2 == 0;
             bool isSizeEven = size % 2 == 0;
