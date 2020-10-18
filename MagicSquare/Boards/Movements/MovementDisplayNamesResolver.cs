@@ -17,15 +17,15 @@ namespace Boards.Movements
             return string.Join(", ", legalMoves.Select(movement => $"{movement} ({movementDisplayNames[movement]})"));
         }
 
-        public bool TryResolve(string nextAction, out Movement nextMovement)
+        public bool TryResolve(string action, out Movement movement)
         {
-            nextMovement = default(Movement);
+            movement = default(Movement);
 
             foreach (KeyValuePair<Movement, string> entry in movementDisplayNames)
             {
-                if (entry.Value == nextAction)
+                if (entry.Value == action)
                 {
-                    nextMovement = entry.Key;
+                    movement = entry.Key;
                     return true;
                 }
             }
