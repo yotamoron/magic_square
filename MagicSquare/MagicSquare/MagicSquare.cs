@@ -23,14 +23,15 @@ namespace MagicSquare
 
         public void Play()
         {
+            GameFlow flow;
             Welcome();
 
-            while (true)
+            do
             {
                 Board board = boardSizeReadingBoardFactory.GetBoard();
 
-                gameDriver.Play(board);
-            }
+                flow = gameDriver.Play(board);
+            } while (flow != GameFlow.END_GAME);
         }
     }
 }

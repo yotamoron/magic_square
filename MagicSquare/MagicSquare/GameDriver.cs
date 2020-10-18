@@ -18,25 +18,26 @@ namespace MagicSquare
             this.actionApplier = actionApplier;
         }
 
-        public void Play(Board board)
+        public GameFlow Play(Board board)
         {
-            bool keepPlaying = true;
+            GameFlow flow = GameFlow.KEEP_PLAYING;
 
-            while (keepPlaying)
+            while (flow == GameFlow.KEEP_PLAYING)
             {
                 PrintBoard(board);
                 if (board.IsSolved)
                 {
                     io.Read("Congrats! you solved the game! Press Enter to continue");
-                    keepPlaying = false;
+                    flow = GameFlow.NEW_GAME;
                 }
                 else
                 {
                     string action = actionReader.ReadAction(board);
 
-                    keepPlaying = actionApplier.ApplyAction(board, action);
+                    flow = actionApplier.ApplyAction(board, action);
                 }
             }
+            return flow;
         }
 
         private void PrintBoard(Board board)

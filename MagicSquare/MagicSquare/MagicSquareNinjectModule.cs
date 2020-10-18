@@ -10,6 +10,7 @@ namespace MagicSquare
     public class MagicSquareNinjectModule : NinjectModule
     {
         private static readonly string newGameSymbol = "N";
+        private static readonly string endGameSymbol = "E";
 
         public override void Load()
         {
@@ -23,7 +24,7 @@ namespace MagicSquare
                 LegalMovesCalculator legalMovesCalculator = ctx.Kernel.Get< LegalMovesCalculator>();
                 IO.IO io = ctx.Kernel.Get<IO.IO>();
 
-                return new ActionReader(newGameSymbol, movementDisplayNamesResolver, legalMovesCalculator, io);
+                return new ActionReader(newGameSymbol, endGameSymbol, movementDisplayNamesResolver, legalMovesCalculator, io);
             }).InSingletonScope();
             Bind<ActionApplier>().ToMethod(ctx =>
             {
@@ -31,7 +32,7 @@ namespace MagicSquare
                 MovementDisplayNamesResolver movementDisplayNamesResolver = ctx.Kernel.Get<MovementDisplayNamesResolver>();
                 IO.IO io = ctx.Kernel.Get<IO.IO>();
 
-                return new ActionApplier(newGameSymbol, tileMover, movementDisplayNamesResolver, io);
+                return new ActionApplier(newGameSymbol, endGameSymbol, tileMover, movementDisplayNamesResolver, io);
             }).InSingletonScope();
         }
     }

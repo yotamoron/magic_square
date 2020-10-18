@@ -7,22 +7,25 @@ namespace MagicSquare
     public class ActionApplier
     {
         private readonly string newGameSymbol;
+        private readonly string endGameSymbol;
         private readonly TileMover tileMover;
         private readonly MovementDisplayNamesResolver movementDisplayNamesResolver;
         private readonly IO.IO io;
 
-        public ActionApplier(string newGameSymbol, TileMover tileMover, MovementDisplayNamesResolver movementDisplayNamesResolver,
+        public ActionApplier(string newGameSymbol, string endGameSymbol,
+            TileMover tileMover, MovementDisplayNamesResolver movementDisplayNamesResolver,
             IO.IO io)
         {
             this.newGameSymbol = newGameSymbol;
+            this.endGameSymbol = endGameSymbol;
             this.tileMover = tileMover;
             this.movementDisplayNamesResolver = movementDisplayNamesResolver;
             this.io = io;
         }
 
-        public bool ApplyAction(Board board, string action)
+        public GameFlow ApplyAction(Board board, string action)
         {
-            bool keepPlaying = true;
+            GameFlow flow = GameFlow.KEEP_PLAYING;
 
             if (movementDisplayNamesResolver.TryResolve(action, out Movement movement))
             {
@@ -33,14 +36,18 @@ namespace MagicSquare
             }
             else if (action == newGameSymbol)
             {
-                keepPlaying = false;
+                flow = GameFlow.NEW_GAME;
+            }
+            else if (action == endGameSymbol)
+            {
+                flow = GameFlow.END_GAME;
             }
             else
             {
                 io.WriteLine($"'{action}' is not a legal input", 3000);
             }
 
-            return keepPlaying;
+            return flow;
         }
     }
 }
