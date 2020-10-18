@@ -2,7 +2,7 @@
 using Moq;
 using Xunit;
 
-namespace Boards.Test
+namespace Boards.Test.Movements
 {
     public class MovementDeltaCalculatorTest
     {

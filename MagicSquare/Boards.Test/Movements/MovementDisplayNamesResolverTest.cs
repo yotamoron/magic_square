@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xunit;
 
-namespace Boards.Test
+namespace Boards.Test.Movements
 {
     public class MovementDisplayNamesResolverTest
     {
