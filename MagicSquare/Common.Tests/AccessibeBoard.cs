@@ -1,7 +1,8 @@
-﻿using Boards.Tiles;
+﻿using Boards;
+using Boards.Tiles;
 using System.Collections.Generic;
 
-namespace Boards.Test
+namespace Common.Tests
 {
     public class AccessibeBoard : Board
     {

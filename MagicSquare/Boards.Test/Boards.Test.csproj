@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Boards\Boards.csproj" />
+    <ProjectReference Include="..\Common.Tests\Common.Tests.csproj" />
   </ItemGroup>
 
 </Project>

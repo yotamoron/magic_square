@@ -1,5 +1,6 @@
 ﻿using Boards.Movements;
 using Boards.Test.Tiles;
+using Common.Tests;
 using Xunit;
 
 namespace Boards.Test.Movements
