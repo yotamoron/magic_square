@@ -12,7 +12,7 @@ namespace Boards.Movements
             this.movementDisplayNames = movementDisplayNames;
         }
 
-        public string Render(List<Movement> legalMoves)
+        public virtual string Render(List<Movement> legalMoves)
         {
             return string.Join(", ", legalMoves.Select(movement => $"{movement} ({movementDisplayNames[movement]})"));
         }
