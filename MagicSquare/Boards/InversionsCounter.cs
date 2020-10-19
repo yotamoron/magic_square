@@ -5,7 +5,7 @@ namespace Boards
 {
     public class InversionsCounter
     {
-        public int Count(List<Tile> tiles)
+        public virtual int Count(List<Tile> tiles)
         {
             int numberOfInversions = 0;
 
