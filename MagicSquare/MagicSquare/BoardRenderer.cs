@@ -15,7 +15,7 @@ namespace MagicSquare
             this.boardValueFetcher = boardValueFetcher;
         }
 
-        public string Render(Board board)
+        public virtual string Render(Board board)
         {
             StringBuilder sb = new StringBuilder();
             IEnumerable<int> indices = Enumerable.Range(0, board.Size);

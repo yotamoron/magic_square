@@ -22,7 +22,7 @@ namespace MagicSquare
             this.io = io;
         }
 
-        public string ReadAction(Board board)
+        public virtual string ReadAction(Board board)
         {
             List<Movement> legalMoves = legalMovesCalculator.GetLegalMoves(board);
             string movements = movementDisplayNamesResolver.Render(legalMoves);

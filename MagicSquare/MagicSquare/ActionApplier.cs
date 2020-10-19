@@ -23,7 +23,7 @@ namespace MagicSquare
             this.io = io;
         }
 
-        public GameFlow ApplyAction(Board board, string action)
+        public virtual GameFlow ApplyAction(Board board, string action)
         {
             GameFlow flow = GameFlow.KEEP_PLAYING;
 
