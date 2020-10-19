@@ -16,7 +16,7 @@ namespace Boards.Tiles
             this.misplacedTilesCounter = misplacedTilesCounter;
         }
 
-        public bool TryMove(Board board, Movement movement, out string error)
+        public virtual bool TryMove(Board board, Movement movement, out string error)
         {            
             bool isLegalMove = legalMovesCalculator.GetLegalMoves(board).Contains(movement);
             

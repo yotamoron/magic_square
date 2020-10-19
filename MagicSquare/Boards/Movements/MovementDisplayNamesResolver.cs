@@ -17,7 +17,7 @@ namespace Boards.Movements
             return string.Join(", ", legalMoves.Select(movement => $"{movement} ({movementDisplayNames[movement]})"));
         }
 
-        public bool TryResolve(string action, out Movement movement)
+        public virtual bool TryResolve(string action, out Movement movement)
         {
             movement = default(Movement);
 
