@@ -64,7 +64,7 @@ namespace Boards.Test
 
         private void Validate(int blankIndex, List<Movement> expectedLegalMovements)
         {
-            AccessibeBoard board = new AccessibeBoard
+            AccessibleBoard board = new AccessibleBoard
             {
                 AccessibleSize = 3,
                 AccessibleBlankIndex = blankIndex

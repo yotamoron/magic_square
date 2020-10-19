@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Common.Tests
 {
-    public class AccessibeBoard : Board
+    public class AccessibleBoard : Board
     {
         public List<Tile> AccessibleTiles
         {

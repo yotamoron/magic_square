@@ -35,7 +35,7 @@ namespace Boards.Test.Movements
         private void TestMovement(Movement movement, int expected)
         {
             MovementDeltaCalculator movementDeltaCalculator = new MovementDeltaCalculator();
-            AccessibeBoard board = new AccessibeBoard
+            AccessibleBoard board = new AccessibleBoard
             {
                 AccessibleSize = SIZE
             };

@@ -25,7 +25,7 @@ namespace Boards.Test.Tiles
         [Fact]
         public void SuccessMoveDown()
         {
-            AccessibeBoard board = new AccessibeBoard
+            AccessibleBoard board = new AccessibleBoard
             {
                 AccessibleTiles = ToTiles(new List<int?> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, null }),
                 AccessibleBlankIndex = 15,
@@ -40,7 +40,7 @@ namespace Boards.Test.Tiles
         [Fact]
         public void SuccessMoveUp()
         {
-            AccessibeBoard board = new AccessibeBoard
+            AccessibleBoard board = new AccessibleBoard
             {
                 AccessibleTiles = ToTiles(new List<int?> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, null, 12, 13, 14, 11 }),
                 AccessibleBlankIndex = 11,
@@ -55,7 +55,7 @@ namespace Boards.Test.Tiles
         [Fact]
         public void SuccessMoveLeft()
         {
-            AccessibeBoard board = new AccessibeBoard
+            AccessibleBoard board = new AccessibleBoard
             {
                 AccessibleTiles = ToTiles(new List<int?> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, null, 14 }),
                 AccessibleBlankIndex = 14,
@@ -70,7 +70,7 @@ namespace Boards.Test.Tiles
         [Fact]
         public void SuccessMoveRight()
         {
-            AccessibeBoard board = new AccessibeBoard
+            AccessibleBoard board = new AccessibleBoard
             {
                 AccessibleTiles = ToTiles(new List<int?> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, null }),
                 AccessibleBlankIndex = 15,
@@ -83,7 +83,7 @@ namespace Boards.Test.Tiles
         }
 
 
-        private void SuccessMove(AccessibeBoard board, Movement movement, int expectedBlankIndex, bool expectedIsSolved)
+        private void SuccessMove(AccessibleBoard board, Movement movement, int expectedBlankIndex, bool expectedIsSolved)
         {
             TileMover tileMover = GetTileMover(out TileMoverContext tileMoverContext);
 

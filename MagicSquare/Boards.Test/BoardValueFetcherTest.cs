@@ -65,7 +65,7 @@ namespace Boards.Test
 
         private bool TryGetValueAt(int row, int column, out int? value, out string error)
         {
-            AccessibeBoard board = new AccessibeBoard
+            AccessibleBoard board = new AccessibleBoard
             {
                 AccessibleTiles = new List<Tile>() { new Tile(0), new Tile(1), new Tile(2), new Tile(null) },
                 AccessibleBlankIndex = 3,
