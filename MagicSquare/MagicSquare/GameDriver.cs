@@ -18,7 +18,7 @@ namespace MagicSquare
             this.actionApplier = actionApplier;
         }
 
-        public GameFlow Play(Board board)
+        public virtual GameFlow Play(Board board)
         {
             GameFlow flow = GameFlow.KEEP_PLAYING;
 

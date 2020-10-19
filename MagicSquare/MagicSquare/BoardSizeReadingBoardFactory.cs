@@ -13,7 +13,7 @@ namespace MagicSquare
             this.boardFactory = boardFactory;
         }
 
-        public Board GetBoard()
+        public virtual Board GetBoard()
         {
             int size = boardSizeReader.Read();
 
