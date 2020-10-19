@@ -21,7 +21,7 @@ namespace Boards
             this.tilesShuffler = tilesShuffler;
         }
 
-        public Board Build(int size)
+        public virtual Board Build(int size)
         {
             if (size < 1)
             {

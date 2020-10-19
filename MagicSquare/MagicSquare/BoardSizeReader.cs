@@ -9,7 +9,7 @@
             this.io = io;
         }
 
-        public int Read()
+        public virtual int Read()
         {
 
             while (true)
