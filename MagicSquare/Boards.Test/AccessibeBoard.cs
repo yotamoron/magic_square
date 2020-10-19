@@ -1,7 +1,7 @@
 ﻿using Boards.Tiles;
 using System.Collections.Generic;
 
-namespace Boards.Test.Tiles
+namespace Boards.Test
 {
     public class AccessibeBoard : Board
     {
