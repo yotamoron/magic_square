@@ -14,7 +14,7 @@ namespace Boards
             this.blankTileIndexFinder = blankTileIndexFinder;
         }
 
-        public bool Validate(List<Tile> tiles, int size)
+        public virtual bool Validate(List<Tile> tiles, int size)
         {
             bool isValid = blankTileIndexFinder.TryFind(tiles, out int blankIndex);
             

@@ -8,7 +8,7 @@ namespace Boards.Tiles
     {
         private readonly Random rand = new Random();
 
-        public void Shuffle(List<Tile> tiles)
+        public virtual void Shuffle(List<Tile> tiles)
         {
             List<Tile> original = new List<Tile>(tiles);
 

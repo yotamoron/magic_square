@@ -4,7 +4,7 @@ namespace Boards.Tiles
 {
     public class BlankTileIndexFinder
     {
-        public bool TryFind(List<Tile> tiles, out int tileIndex)
+        public virtual bool TryFind(List<Tile> tiles, out int tileIndex)
         {
             tileIndex = -1;
 
