@@ -9,3 +9,4 @@
 	# dotnet run --project MagicSquare
 
 - Code was built, tested and run against Ubuntu 18.04, dotnet core version 2.2
+- Entry point (Main function) is in MagicSquare/Program.cs
